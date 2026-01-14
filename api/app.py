@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
+# Important: template_folder and static_folder paths relative to api/
+app = Flask(
+    __name__,
+    template_folder="../templates",
+    static_folder="../static"
+)
 
 menu = {
     "coffee": 2.50,
@@ -26,6 +31,3 @@ def index():
         bill = sum(menu[item] * qty for item, qty in order.items())
 
     return render_template("index.html", menu=menu, bill=bill, order=order, customer=customer)
-
-if __name__ == "__main__":
-    app.run(debug=True)
