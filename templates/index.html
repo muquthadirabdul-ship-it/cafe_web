@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cafe Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>☕ Cafe Management System</h1>
+
+<form method="POST">
+    <input type="text" name="customer" placeholder="Enter your name" required>
+
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+
+        {% for item, price in menu.items() %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>${{ price }}</td>
+            <td><input type="number" name="{{ item }}" min="0" value="0"></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button type="submit">Generate Bill</button>
+</form>
+
+{% if bill is not none %}
+<div class="bill-box">
+    <h3>Receipt</h3>
+    <p>Customer: {{ customer }}</p>
+    <ul>
+        {% for item, qty in order.items() %}
+            <li>{{ item }} x {{ qty }} = ${{ '%.2f' % (menu[item]*qty) }}</li>
+        {% endfor %}
+    </ul>
+    <strong>Total = ${{ '%.2f' % bill }}</strong>
+</div>
+{% endif %}
+
+</body>
+</html>
